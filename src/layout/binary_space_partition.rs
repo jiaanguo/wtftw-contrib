@@ -113,7 +113,7 @@ impl<T: Clone> Crumb<T> {
 }
 
 #[derive(Clone)]
-pub struct Zipper {
+struct Zipper {
     tree: Tree<Split>,
     crumbs: Vec<Crumb<Split>>
 }
