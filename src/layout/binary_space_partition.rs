@@ -113,7 +113,7 @@ impl<T: Clone> Crumb<T> {
 }
 
 #[derive(Clone)]
-struct Zipper {
+pub struct Zipper {
     tree: Tree<Split>,
     crumbs: Vec<Crumb<Split>>
 }
@@ -364,7 +364,7 @@ pub struct BinarySpacePartition {
 }
 
 impl BinarySpacePartition {
-    pub fn new() -> Box<Layout> {
+    pub fn new() -> Box<dyn Layout> {
         Box::new(BinarySpacePartition::empty())
     }
 
@@ -472,7 +472,7 @@ impl BinarySpacePartition {
 }
 
 impl Layout for BinarySpacePartition {
-    fn apply_layout(&mut self, _: &WindowSystem, screen: Rectangle, _: &GeneralConfig,
+    fn apply_layout(&mut self, _: &dyn WindowSystem, screen: Rectangle, _: &GeneralConfig,
                     stack: &Option<Stack<Window>>) -> Vec<(Window, Rectangle)> {
         match *stack {
             Some(ref st) => {
@@ -505,7 +505,7 @@ impl Layout for BinarySpacePartition {
         }
     }
 
-    fn apply_message(&mut self, message: LayoutMessage, _: &WindowSystem,
+    fn apply_message(&mut self, message: LayoutMessage, _: &dyn WindowSystem,
         stack: &Option<Stack<Window>>, _: &GeneralConfig) -> bool {
             match message {
                 LayoutMessage::TreeRotate => {
@@ -558,7 +558,7 @@ impl Layout for BinarySpacePartition {
         "BSP".to_owned()
     }
 
-    fn copy(&self) -> Box<Layout> {
+    fn copy(&self) -> Box<dyn Layout> {
         Box::new(self.clone())
     }
 }

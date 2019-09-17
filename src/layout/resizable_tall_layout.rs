@@ -20,7 +20,7 @@ pub struct ResizableTallLayout {
 }
 
 impl ResizableTallLayout {
-    pub fn new() -> Box<Layout> {
+    pub fn new() -> Box<dyn Layout> {
         Box::new(ResizableTallLayout {
             num_master: 1,
             increment_ratio: 0.03,
@@ -98,7 +98,7 @@ smallh)).iter())
 }
 
 impl Layout for ResizableTallLayout {
-    fn apply_layout(&mut self, _: &WindowSystem, screen: Rectangle, _: &GeneralConfig,
+    fn apply_layout(&mut self, _: &dyn WindowSystem, screen: Rectangle, _: &GeneralConfig,
                     stack: &Option<Stack<Window>>) -> Vec<(Window, Rectangle)> {
         match stack {
             &Some(ref s) => {
@@ -115,7 +115,7 @@ self.slaves.clone().into_iter().chain(iter::repeat(1.0)).take(ws.len()),
         }
     }
 
-    fn apply_message(&mut self, message: LayoutMessage, _: &WindowSystem,
+    fn apply_message(&mut self, message: LayoutMessage, _: &dyn WindowSystem,
                          stack: &Option<Stack<Window>>, _: &GeneralConfig) -> bool {
         let d = self.increment_ratio;
         match message {
@@ -135,7 +135,7 @@ self.slaves.clone().into_iter().chain(iter::repeat(1.0)).take(ws.len()),
         "ResizeTall".to_owned()
     }
 
-    fn copy(&self) -> Box<Layout> {
+    fn copy(&self) -> Box<dyn Layout> {
         Box::new(self.clone())
     }
 }

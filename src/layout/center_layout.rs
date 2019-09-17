@@ -11,11 +11,11 @@ use self::wtftw::window_system::Window;
 
 
 pub struct CenterLayout {
-    pub layout: Box<Layout>
+    pub layout: Box<dyn Layout>
 }
 
 impl CenterLayout {
-    pub fn new(layout: Box<Layout>) -> Box<Layout> {
+    pub fn new(layout: Box<dyn Layout>) -> Box<dyn Layout> {
         Box::new(CenterLayout {
             layout: layout.copy()
         })
@@ -23,7 +23,7 @@ impl CenterLayout {
 }
 
 impl Layout for CenterLayout  {
-    fn apply_layout(&mut self, window_system: &WindowSystem, screen: Rectangle, config: &GeneralConfig,
+    fn apply_layout(&mut self, window_system: &dyn WindowSystem, screen: Rectangle, config: &GeneralConfig,
                     stack: &Option<Stack<Window>>) -> Vec<(Window, Rectangle)> {
         match stack {
             &Some(ref s) => {
@@ -53,7 +53,7 @@ impl Layout for CenterLayout  {
         }
     }
 
-    fn apply_message(&mut self, message: LayoutMessage, window_system: &WindowSystem,
+    fn apply_message(&mut self, message: LayoutMessage, window_system: &dyn WindowSystem,
                          stack: &Option<Stack<Window>>, config: &GeneralConfig) -> bool {
         self.layout.apply_message(message, window_system, stack, config)
     }
@@ -62,7 +62,7 @@ impl Layout for CenterLayout  {
         "Center".to_owned()
     }
 
-    fn copy(&self) -> Box<Layout> {
+    fn copy(&self) -> Box<dyn Layout> {
         CenterLayout::new(self.layout.copy())
     }
 }

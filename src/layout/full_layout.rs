@@ -12,7 +12,7 @@ use self::wtftw::window_system::WindowSystem;
 pub struct FullLayout;
 
 impl Layout for FullLayout {
-    fn apply_layout(&mut self, _: &WindowSystem, screen: Rectangle, config: &GeneralConfig,
+    fn apply_layout(&mut self, _: &dyn WindowSystem, screen: Rectangle, config: &GeneralConfig,
                     stack: &Option<Stack<Window>>) -> Vec<(Window, Rectangle)> {
         match *stack {
             Some(ref st) => {
@@ -28,7 +28,7 @@ impl Layout for FullLayout {
         "Full".to_owned()
     }
 
-    fn copy(&self) -> Box<Layout> {
+    fn copy(&self) -> Box<dyn Layout> {
         Box::new(self.clone())
     }
 }

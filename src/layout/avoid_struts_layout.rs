@@ -39,7 +39,7 @@ fn parse_strut_partial(x: Vec<u64>) -> Vec<Strut> {
     //}
 }
 
-pub fn get_strut(window_system: &WindowSystem, window: Window) -> Vec<Strut> {
+pub fn get_strut(window_system: &dyn WindowSystem, window: Window) -> Vec<Strut> {
     let partial_strut = window_system.get_partial_strut(window);
 
     fn parse_strut(x: Vec<u64>) -> Vec<Strut> {
@@ -78,13 +78,13 @@ pub fn get_strut(window_system: &WindowSystem, window: Window) -> Vec<Strut> {
 /// to not overlap them.
 pub struct AvoidStrutsLayout {
     directions: BTreeSet<Direction>,
-    layout: Box<Layout>
+    layout: Box<dyn Layout>
 }
 
 impl AvoidStrutsLayout {
     /// Create a new AvoidStrutsLayout, containing the given layout
     /// and avoiding struts in the given directions.
-    pub fn new(d: Vec<Direction>, layout: Box<Layout>) -> Box<Layout> {
+    pub fn new(d: Vec<Direction>, layout: Box<dyn Layout>) -> Box<dyn Layout> {
         Box::new(AvoidStrutsLayout {
             directions: d.iter().map(|&x| x).collect(),
             layout: layout.copy()
@@ -93,7 +93,7 @@ impl AvoidStrutsLayout {
 }
 
 impl Layout for AvoidStrutsLayout {
-    fn apply_layout(&mut self, window_system: &WindowSystem, screen: Rectangle, config: &GeneralConfig,
+    fn apply_layout(&mut self, window_system: &dyn WindowSystem, screen: Rectangle, config: &GeneralConfig,
                     stack: &Option<Stack<Window>>) -> Vec<(Window, Rectangle)> {
 
         let new_screen = stack.clone().map_or(screen, |_| {
@@ -116,7 +116,7 @@ impl Layout for AvoidStrutsLayout {
         self.layout.apply_layout(window_system, new_screen, config, stack)
     }
 
-    fn apply_message(&mut self, message: LayoutMessage, window_system: &WindowSystem,
+    fn apply_message(&mut self, message: LayoutMessage, window_system: &dyn WindowSystem,
                          stack: &Option<Stack<Window>>, config: &GeneralConfig) -> bool {
         self.layout.apply_message(message, window_system, stack, config)
     }
@@ -125,7 +125,7 @@ impl Layout for AvoidStrutsLayout {
         self.layout.description()
     }
 
-    fn copy(&self) -> Box<Layout> {
+    fn copy(&self) -> Box<dyn Layout> {
         Box::new(AvoidStrutsLayout {
             directions: self.directions.clone(),
             layout: self.layout.copy()

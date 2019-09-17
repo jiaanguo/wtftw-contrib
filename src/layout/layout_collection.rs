@@ -9,12 +9,12 @@ use self::wtftw::window_system::Window;
 use self::wtftw::window_system::WindowSystem;
 
 pub struct LayoutCollection {
-    pub layouts: Vec<Box<Layout>>,
+    pub layouts: Vec<Box<dyn Layout>>,
     pub current: usize
 }
 
 impl LayoutCollection {
-    pub fn new(layouts: Vec<Box<Layout>>) -> Box<Layout> {
+    pub fn new(layouts: Vec<Box<dyn Layout>>) -> Box<dyn Layout> {
         Box::new(LayoutCollection {
             layouts: layouts,
             current: 0
@@ -23,12 +23,12 @@ impl LayoutCollection {
 }
 
 impl Layout for LayoutCollection {
-    fn apply_layout(&mut self, window_system: &WindowSystem, screen: Rectangle, config: &GeneralConfig,
+    fn apply_layout(&mut self, window_system: &dyn WindowSystem, screen: Rectangle, config: &GeneralConfig,
                     stack: &Option<Stack<Window>>) -> Vec<(Window, Rectangle)> {
         self.layouts[self.current].apply_layout(window_system, screen, config, stack)
     }
 
-    fn apply_message(&mut self, message: LayoutMessage, window_system: &WindowSystem,
+    fn apply_message(&mut self, message: LayoutMessage, window_system: &dyn WindowSystem,
                          stack: &Option<Stack<Window>>, config: &GeneralConfig) -> bool {
         match message {
             LayoutMessage::Next => {
@@ -50,7 +50,7 @@ config)
         self.layouts[self.current].description()
     }
 
-    fn copy(&self) -> Box<Layout> {
+    fn copy(&self) -> Box<dyn Layout> {
         Box::new(LayoutCollection {
             current: self.current,
             layouts: self.layouts.iter().map(|x| x.copy()).collect()
