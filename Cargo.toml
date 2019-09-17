@@ -8,12 +8,12 @@ authors = ["Simon Wollwage"]
 git = "https://github.com/jiaanguo/wtftw.git"
 
 [dependencies]
-bitflags = "0.1"
-rustc-serialize = "0.3.24"
-log = "0.3.1"
-num = "0.1.25"
-libc = "0.1.8"
-dylib = "0.0.1"
+bitflags = "*"
+rustc-serialize = "*"
+log = "*"
+num = "*"
+libc = "*"
+dylib = "*"
 
 [lib]
 name = "wtftw_contrib"
