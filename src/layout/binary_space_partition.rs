@@ -1,13 +1,10 @@
-extern crate wtftw;
+use wtftw::config::GeneralConfig;
+use wtftw::core::stack::Stack;
+use wtftw::layout::{Direction, Layout, LayoutMessage};
+use wtftw::window_system::{Rectangle, Window, WindowSystem};
 
-use self::wtftw::config::GeneralConfig;
-use self::wtftw::core::stack::Stack;
-use self::wtftw::layout::Direction;
-use self::wtftw::layout::Layout;
-use self::wtftw::layout::LayoutMessage;
-use self::wtftw::window_system::Rectangle;
-use self::wtftw::window_system::Window;
-use self::wtftw::window_system::WindowSystem;
+use log::debug;
+
 use std::borrow::ToOwned;
 use std::ops::Deref;
 
@@ -472,7 +469,7 @@ impl BinarySpacePartition {
         })
     }
 
-    pub fn do_to_nth<F>(&self, n: usize, f: F) -> BinarySpacePartition
+    fn do_to_nth<F>(&self, n: usize, f: F) -> BinarySpacePartition
     where
         F: Fn(Zipper) -> Option<Zipper>,
     {

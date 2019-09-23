@@ -1,7 +1,5 @@
-extern crate wtftw;
-
-use self::wtftw::layout::Layout;
-use layout::with_borders_layout::WithBordersLayout;
+use wtftw::layout::Layout;
+use super::with_borders_layout::WithBordersLayout;
 
 pub struct NoBordersLayout;
 

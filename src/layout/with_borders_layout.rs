@@ -1,12 +1,7 @@
-extern crate wtftw;
-
-use self::wtftw::config::GeneralConfig;
-use self::wtftw::core::stack::Stack;
-use self::wtftw::layout::Layout;
-use self::wtftw::layout::LayoutMessage;
-use self::wtftw::window_system::Rectangle;
-use self::wtftw::window_system::Window;
-use self::wtftw::window_system::WindowSystem;
+use wtftw::config::GeneralConfig;
+use wtftw::core::stack::Stack;
+use wtftw::layout::{Layout, LayoutMessage};
+use wtftw::window_system::{Rectangle, Window, WindowSystem};
 
 pub struct WithBordersLayout {
     border: u32,
